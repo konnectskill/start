@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starting Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Osake', sans-serif;
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        @font-face {
+            font-family: 'Osake';
+            src: url('osake.otf') format('opentype');
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 60px;
+            margin-bottom: 20px;
+            font-family: 'Osake', sans-serif;
+            display: inline-block;
+        }
+
+        .countdown {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6347; /* Tomato red color for the timer */
+            font-family: 'Osake', sans-serif;
+        }
+
+        .fade-text {
+            display: inline-block;
+            opacity: 0;
+            animation: fadeInOut 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title" id="startingSoonText"></h1>
+        <div id="countdown" class="countdown">10:00</div>
+    </div>
+
+    <script>
+        // Countdown Timer Logic
+        let timeInSeconds = 10 * 60; // 10 minutes in seconds
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes < 10 ? '0' + minutes : minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
+        }
+
+        function updateCountdown() {
+            if (timeInSeconds <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').textContent = "00:00";
+                return;
+            }
+
+            document.getElementById('countdown').textContent = formatTime(timeInSeconds);
+            timeInSeconds--;
+        }
+
+        // Start the countdown
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Create fade-in and fade-out letter-by-letter effect for "Starting Soon"
+        const text = "Starting Soon";
+        const container = document.getElementById("startingSoonText");
+
+        function displayTextWithEffect() {
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement("span");
+                span.textContent = text[i];
+                span.classList.add("fade-text");
+                container.appendChild(span);
+
+                // Adjust delay for each letter
+                span.style.animationDelay = `${i * 0.3}s`;
+            }
+        }
+
+        // Initiate the letter-by-letter animation
+        displayTextWithEffect();
+    </script>
+</body>
+</html>
